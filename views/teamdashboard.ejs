@@ -1,0 +1,285 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=0">
+        <title>Team - Dashboard</title>
+		
+		<!-- Favicon -->
+        <link rel="shortcut icon" href="assets/img/favicon.png">
+	
+		<!-- Fontfamily -->
+		<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,500;0,600;0,700;1,400&display=swap">
+		
+		<!-- Bootstrap CSS -->
+        <link rel="stylesheet" href="assets/plugins/bootstrap/css/bootstrap.min.css">
+		
+		<!-- Fontawesome CSS -->
+		<link rel="stylesheet" href="assets/plugins/fontawesome/css/fontawesome.min.css">
+		<link rel="stylesheet" href="assets/plugins/fontawesome/css/all.min.css">
+
+		<!-- Calendar CSS -->
+		<link rel="stylesheet" href="assets/plugins/simple-calendar/simple-calendar.css">
+		
+		<!-- Main CSS -->
+        <link rel="stylesheet" href="assets/css/style.css">
+		<style>
+			#timer {
+			  font-size: 24px; /* Increase the font size for larger numbers */
+			   text-align: center;
+			}
+		  </style>
+    </head>
+    <body>
+	
+	<!-- Main Wrapper -->
+	<div class="main-wrapper">	
+        <%- include('teammenu.ejs') -%>
+		<!-- Page Wrapper -->
+		<div class="page-wrapper">
+			<div class="content container-fluid">
+				<!-- Page Header -->
+				<div class="page-header">
+					<div class="row">
+						<div class="col-md-9">
+							<h3> SIH 2K23 INTERNAL HACKATHON <%= team['edition'] %> edition  Dashboard !</h3>
+							<h3 class="page-title"> Welcome Team <b> <%= team['team_name'] %></b>!</h3>
+						<ul class="breadcrumb">
+							<li class="breadcrumb-item"><a href='/teamdetails'><%= team['team_name'] %> Details</a></li>
+						</ul>
+						</div>
+						<div class="col-md-3">
+							<div class="card">
+								<div class="card-body">
+									
+								<div class="db-widgets d-flex justify-content-between align-items-center">
+									
+									<div class="db-info">
+										<h6>Count Down Timer</h6>
+									<div id="timer"></div>
+									</div>
+									<div class="db-icon">
+										<img src="assets/img/logo-small.png" alt="Logo" width="50" height="50">
+									</div>
+									</div>
+							</div>
+							</div>
+							
+						</div>
+					</div>
+					</div>
+			
+				<!-- /Page Header -->
+				<!-- Overview Section -->
+					<!-- /Overview Section -->	
+					<!-- Teacher Dashboard -->
+					<div class="row">
+						<div class="col-12 col-lg-8 col-xl-8 d-flex">
+							 <div class="card flex-fill">
+								<div class="card-header">
+									<div class="row align-items-center">
+										<div class="col-6">
+											<h5 class="card-title">Tasks Assigned By Jury</h5>
+										</div>
+									</div>						
+							    </div>
+								<div class="card-body">
+									<!-- need to change them into lists -->
+									<% if(sta==1){%>
+										<h5><b>Not yet Started</b></h5>
+									<%} else {%>
+									<%  if(tasks[0]['tasksr1']=='hii'){ %>
+									<h5><b>Not yet Assigned Tasks for Round1</b></h5>
+									
+									<%} else{ %>
+										<h6>Round 1 Tasks : <b><%= tasks[0]['tasksr1'] %></b></h6>
+									 <% }%>
+									 <%  if(tasks[0]['tasksr2']!='hii'){ %>
+										<h6>Round 2 Tasks :<b><%= tasks[0]['tasksr2'] %></b></h6>
+									<%}%>
+									<% } %>
+
+								</div>	
+						 </div>
+					  </div> 	
+								  
+						<div class="col-12 col-lg-4 col-xl-4 d-flex">				
+								<!-- Feed Activity -->
+								<div class="card flex-fill">
+									<div class="card-header">
+										<h5 class="card-title">Round Wise Timings</h5>
+									</div>
+									<div class="card-body">
+										<div class="table-responsive">
+											<table  class="table table-hover">
+												<thead>
+													<tr>
+														<th>Round Number</th>
+														<th>Start Time</th>
+														<th>End Time</th>
+													</tr>
+												</thead>
+												<tbody>
+													<% round.forEach(function(rou) { %>
+														<tr>
+														  <td>Round - <%=rou['RoundNumber'] %></td>
+														  <% if (rou['start']=='hii') { %>
+															<td>----</td>
+															
+															<% } else { %>
+																<td><%=String(rou['start']).slice(0,24) %></td>
+															<% } %>
+															<% if (rou['end']=='hii') { %>
+																<td>----</td>
+															  
+															  <% } else { %>
+																<td><%=String(rou['end']).slice(0,24) %></td>
+															  <% } %>
+														</tr>
+													  <% }); %>
+												</tbody>
+											</table>
+										</div>
+									</div>					
+								</div>
+							</div>
+						</div>
+
+					<!-- <div class="col-12 col-lg-4 col-xl-4 d-flex">
+						<div class="card flex-fill">
+							<div class="card-header">
+								<div class="row align-items-center">
+									<div class="col-12">
+										<h5 class="card-title">Semester Progres</h5>
+									</div>
+								</div>						
+							</div>
+							<div class="dash-widget">
+								<div class="circle-bar circle-bar1">
+									<div class="circle-graph1" data-percent="50">
+										<b>50%</b>
+									</div>
+								</div>
+								<div class="dash-info">
+									<h6>Lesson Progressed</h6>
+									<h4>30 <span>/ 60</span></h4>
+								</div>
+							</div>
+						</div>
+					</div>
+					</div> -->
+				</div>
+			</div>
+			<!-- /Teacher Dashboard -->
+		</div>
+		
+		<!-- Footer -->
+		<!-- <footer>
+			<p>Copyright © 2020 Dreamguys.</p>					
+		</footer> -->
+		<!-- /Footer -->
+
+	</div>
+	<!-- /Page Wrapper -->
+
+        </div>
+		<!-- /Main Wrapper -->
+		<script>
+			let secondsRemaining = 86400;
+			function updateTimer() {
+		
+				const hours = Math.floor(secondsRemaining / 3600) || '24';
+				const minutes = Math.floor((secondsRemaining % 3600) / 60) || '00';
+				const seconds = secondsRemaining % 60 || '00';
+				
+				const hoursDisplay = hours.toString().padStart(2, "0");
+				const minutesDisplay = minutes.toString().padStart(2, "0");
+				const secondsDisplay = seconds.toString().padStart(2, "0");
+		
+				document.getElementById("timer").textContent = `${hoursDisplay}:${minutesDisplay}:${secondsDisplay}`;
+				secondsRemaining--;
+			}
+
+				// Function to start the timer
+				function startTimer() {
+				document.getElementById("startButton").style.display = "none"; // Hide the button
+				document.getElementById("music").play(); // Play the music
+				// Send an AJAX request to the backend to store the timestamp
+				fetch("/startTimer", {
+					method: "POST",
+				})
+				.then(response => {
+					getStoredTimestamp();
+				})
+				.catch(error => {
+					console.error("Error storing timestamp:", error);
+				});
+			}
+			const startButton = document.getElementById("startButton");
+			if (startButton) {
+			startButton.addEventListener("click", startTimer);
+			}
+
+
+			// Function to retrieve the stored timestamp and initialize the timer
+			function getStoredTimestamp() {
+				fetch("/getStoredTime")
+				.then(response => response.json())
+				.then(data => {
+					const storedTimestamp = new Date(data.timestamp);
+					const currentTime = new Date();
+					const timeDifference = storedTimestamp - currentTime;
+					console.log(timeDifference);
+					if(timeDifference>0){
+					// Set the initial secondsRemaining based on the stored timestamp
+					secondsRemaining = Math.floor(timeDifference / 1000);
+					// Update the timer display
+					setInterval(updateTimer, 1000); 
+					}
+					else if(timeDifference==0)
+					{
+						document.getElementById("timer").textContent = "Stop Coding" // Reset to 24 hours when it reaches zero
+					    document.getElementById("music").play();
+					}
+					else{
+					document.getElementById("timer").textContent = "24:00:00" // Reset to 24 hours when it reaches zero
+					document.getElementById("music").play();
+					}
+				})
+				.catch(error => {
+					console.error("Error fetching stored timestamp:", error);
+				});
+			}
+
+			window.addEventListener("load", function(event){
+				getStoredTimestamp();
+		});
+		
+
+		</script>
+	
+		<!-- jQuery -->
+        <script src="assets/js/jquery-3.6.0.min.js"></script>
+		
+		<!-- Bootstrap Core JS -->
+        <script src="assets/plugins/bootstrap/js/bootstrap.bundle.min.js"></script>
+		
+		<!-- Slimscroll JS -->
+		<script src="assets/plugins/slimscroll/jquery.slimscroll.min.js"></script>
+		
+		<!-- Chart JS -->
+		<script src="assets/plugins/apexchart/apexcharts.min.js"></script>
+		<script src="assets/plugins/apexchart/chart-data.js"></script>
+
+		<!-- Calendar Js -->
+		<script src="assets/plugins/simple-calendar/jquery.simple-calendar.js"></script>
+		<script src="assets/js/calander.js"></script>
+
+		<!-- Circle Progress JS -->
+		<script src="assets/js/circle-progress.min.js"></script>
+
+		<!-- Custom JS -->
+		<script src="assets/js/script.js"></script>
+		
+    </body>
+</html>

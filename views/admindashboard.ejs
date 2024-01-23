@@ -1,0 +1,322 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=0">
+        <title>Admin - Dashboard</title>
+		
+		<!-- Favicon -->
+        <link rel="shortcut icon" href="/assets/img/favicon.png">
+	
+		<!-- Fontfamily -->
+		<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,500;0,600;0,700;1,400&display=swap">
+		
+		<!-- Bootstrap CSS -->
+        <link rel="stylesheet" href="/assets/plugins/bootstrap/css/bootstrap.min.css">
+		
+		<!-- Fontawesome CSS -->
+		<link rel="stylesheet" href="/assets/plugins/fontawesome/css/fontawesome.min.css">
+		<link rel="stylesheet" href="/assets/plugins/fontawesome/css/all.min.css">
+
+		<!-- Calendar CSS -->
+		<link rel="stylesheet" href="/assets/plugins/simple-calendar/simple-calendar.css">
+		
+		<!-- Main CSS -->
+        <link rel="stylesheet" href="/assets/css/style.css">    
+		<style>
+			#timer {
+			  font-size: 24px; /* Increase the font size for larger numbers */
+			  text-align: center;
+			}
+		  </style>
+		
+    </head>
+    <body>
+	
+	<!-- Main Wrapper -->
+	<div class="main-wrapper">	
+       
+		<!-- Page Wrapper -->
+		<div class="page-wrapper">
+            <%- include('adminmenu.ejs') -%>
+			<div class="content container-fluid">
+				<!-- Page Header -->
+				<div class="page-header">
+					<div class="row">
+						<div class="col-md-9">
+						     <h3> SIH 2K23 INTERNAL HACKATHON</h3>
+							<h3 class="page-title">Welcome to the  Admin Dashboard !!</h3>
+						</div>
+
+						<div class="col-md-3">
+							<div class="card">
+								<div class="card-body">
+									
+								<div class="db-widgets d-flex justify-content-between align-items-center">
+									
+									<div class="db-info">
+										<h6>CountDown Timer</h6>
+									<div id="timer"></div>
+									</div>
+									<div class="db-icon">
+										<img src="assets/img/logo-small.png" alt="Logo" width="50" height="50">
+									</div>
+									</div>
+							</div>
+							</div>
+							
+						</div>
+					</div>
+				</div>
+
+                <div class="card-body">
+                    <div class="row">
+                        <div class="col-sm-9">
+                            <div class="card card-table">
+                                <div class="card-body">
+                                    <div class="table-responsive">
+                                        <table  class="table table-hover">
+                                            <thead>
+                                                <tr>
+                                                    <th>Round Number</th>
+                                                    <th>Start Time</th>
+                                                    <th>End Time</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                <% round.forEach(function(rou) { %>
+                                                    <tr>
+                                                      <td>Round - <%=rou['RoundNumber'] %></td>
+                                                      <% if (rou['start']==='hii') { %>
+                                                        <td>----</td>
+                                                      <% } else { %>
+                                                        <td><%=String(rou['start']).slice(0,24) %></td>
+                                                      <% } %>
+                                                      <% if (rou['end']==='hii') { %>
+                                                        <td>----</td>
+                                                        <% } else { %>
+                                                            <td><%=String(rou['end']).slice(0,24) %></td>
+                                                        <% } %>
+                                                      <% if (rou['set']=='0' && rset===parseInt(rou['RoundNumber'])) { %>
+                                                        <td><a href="/setround<%=rou['RoundNumber']%>"><button type="button" class="btn btn-primary">Start Round-<%=rou['RoundNumber'] %></button></a></td>
+                                                        <% } else if (rou['set'] == '2') { %>
+                                                            <td><b>Round-<%=rou['RoundNumber'] %> ended</b></td>
+                                                        <% } else if (rou['set'] =='0') { %>
+                                                            <td>Round Not yet Started</td>
+                                                          <% } else { %>
+                                                            <td><a href="/endround<%=rou['RoundNumber']%>"><button type="button" class="btn btn-primary">End Round-<%=rou['RoundNumber'] %></button></a></td>
+                                                          <% } %>
+                                                    </tr>
+                                                  <% }); %>
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </div>
+                            </div>							
+                        </div>		
+                        <div class="col-sm-3">
+                            <div class="card">
+                                    <div class="card-header">
+                                        Toggle Buttons
+                                    </div>
+                                    <div class="card-body">
+                                        
+                                        <div class="col-md-12">
+                                            <a href="/adminsethackathon"><button type="button" class="btn btn-primary">Set Start Hackathon</button></a>
+                                        </div>
+                                        <br>
+                                        <div class="col-md-12">
+                                            <a href="/adminsetrounds"><button type="button" class="btn btn-primary">Set Rounds</button></a>
+                                        </div>
+                                        <br>
+                                        <% if(admin['llogin']){ %>
+                                            <div class="col-md-12">
+                                                <a href="/admindenyteamlogin"><button type="button" class="btn btn-primary">Deny Teams Login</button></a>
+                                            </div>
+                                        <%} else{%>
+                                        <div class="col-md-12">
+                                            <a href="/adminsetteamlogin"><button type="button" class="btn btn-primary">Teams Login Access</button></a>
+                                        </div>
+                                        <%}%>
+                                        <br>
+                                        <% if(admin['rlogin']){ %>
+                                        <div class="col-md-12">
+                                            <a href="/admindenyjurylogin"><button type="button" class="btn btn-primary">Deny Juries Login</button></a>
+                                        </div>
+                                        <%} else{%>
+                                        <div class="col-md-12">
+                                            <a href="/adminsetjurylogin"><button type="button" class="btn btn-primary">Juries Login Access</button></a>
+                                        </div>
+                                        <%}%>
+                                    </div>
+                            </div>
+                       </div>			
+                    </div>	
+                    <div class="card-body">
+                        <div class="row">
+                            <div class="col-sm-9">
+                                <div class="card card-table">
+                                    <div class="card-body">
+                                        <div class="table-responsive">
+                                            <table  class="table table-hover">
+                                                <thead>
+                                                    <tr>
+                                                        <th>Peer Evaluation</th>
+                                                        <th>Start Time</th>
+                                                        <th>End Time</th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody>
+                                                        <td>Peer Evaluation</td>
+                                                        <% if(peer[0]['peerstart']==="hii"){ %>
+                                                            <td>----</td>
+                                                        <% } else{%>
+                                                            <td><%=String(peer[0]['peerstart']).slice(0,24)%></td>
+                                                            
+                                                        <% }%>
+                                                        <% if(peer[0]['peerend']==="hii"){ %>
+                                                            <td>----</td>
+                                                        <% } else{%>
+                                                            <td><%=String(peer[0]['peerend']).slice(0,24)%></td>
+                                                        <% }%>
+                                                        <% if(peer[0]['peerset']===1){ %>
+                                                        <td><a href="/adminendpeer"><button type="submit" class="btn btn-primary">End Peer Evaluation</button></a></td>
+                                                        <% }else if(peer[0]['peerset']===2) { %>
+                                                            <td>peer evaluation ends</td>
+                                                        <% } else{ %>
+                                                            <td><a href="/adminstartpeer"><button type="submit" class="btn btn-primary">Start Peer Evaluation</button></a></td>
+                                                        <% } %>
+
+                                                </tbody>
+                                            </table>
+                                        </div>
+                                    </div>
+                                </div>							
+                            </div>		
+                    <div class="row">
+                        <div class="col-md-3">
+                            <div class="card">
+                                <div class="card-body">
+                                    <form action="/setteamlogincount" method="post">
+                                        <div class="form-group">
+                                            <label>Give Team login Access</label>
+                                            <div class="form-group">
+                                            <input class="form-control" name="team_name" id="team_name" type="text" placeholder="teamname">
+                                            </div>
+                                            <div class="form-group text-end">
+                                            <button type="submit" class="btn btn-primary" name="submit">Give Access</button>
+                                            </div>
+                                        </div>
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                   </div></div></div> 	
+ 
+                  
+		</div>
+		
+
+	</div>
+	<!-- /Page Wrapper -->
+
+        </div>
+        <script>
+            let secondsRemaining = 86400;
+            function updateTimer() {
+        
+                const hours = Math.floor(secondsRemaining / 3600) || '24';
+                const minutes = Math.floor((secondsRemaining % 3600) / 60) || '00';
+                const seconds = secondsRemaining % 60 || '00';
+                
+                const hoursDisplay = hours.toString().padStart(2, "0");
+                const minutesDisplay = minutes.toString().padStart(2, "0");
+                const secondsDisplay = seconds.toString().padStart(2, "0");
+        
+                document.getElementById("timer").textContent = `${hoursDisplay}:${minutesDisplay}:${secondsDisplay}`;
+                secondsRemaining--;
+            }
+
+                // Function to start the timer
+                function startTimer() {
+                document.getElementById("startButton").style.display = "none"; // Hide the button
+                document.getElementById("music").play(); // Play the music
+                // Send an AJAX request to the backend to store the timestamp
+                fetch("/startTimer", {
+                    method: "POST",
+                })
+                .then(response => {
+                    getStoredTimestamp();
+                })
+                .catch(error => {
+                    console.error("Error storing timestamp:", error);
+                });
+            }
+            const startButton = document.getElementById("startButton");
+            if (startButton) {
+            startButton.addEventListener("click", startTimer);
+            }
+
+
+            // Function to retrieve the stored timestamp and initialize the timer
+            function getStoredTimestamp() {
+                fetch("/getStoredTime")
+                .then(response => response.json())
+                .then(data => {
+                    const storedTimestamp = new Date(data.timestamp);
+                    const currentTime = new Date();
+                    const timeDifference = storedTimestamp - currentTime;
+                    console.log(timeDifference);
+                    if(timeDifference>0){
+                    // Set the initial secondsRemaining based on the stored timestamp
+                    secondsRemaining = Math.floor(timeDifference / 1000);
+                    // Update the timer display
+                    setInterval(updateTimer, 1000); 
+                    }
+                    else if(timeDifference==0)
+                    {
+                        document.getElementById("timer").textContent = "Stop Coding" // Reset to 24 hours when it reaches zero
+                    document.getElementById("music").play();
+                    }
+                    else{
+                    document.getElementById("timer").textContent = "24:00:00" // Reset to 24 hours when it reaches zero
+                    document.getElementById("music").play();
+                    }
+                })
+                .catch(error => {
+                    console.error("Error fetching stored timestamp:", error);
+                });
+            }
+
+            window.addEventListener("load", function(event){
+                getStoredTimestamp();
+        });
+        
+
+        </script>
+    
+		<!-- /Main Wrapper -->	
+		<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
+		<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+		
+		<!-- Slimscroll JS -->
+		<script src="assets/plugins/slimscroll/jquery.slimscroll.min.js"></script>
+		
+		<!-- Chart JS -->
+		<script src="assets/plugins/apexchart/apexcharts.min.js"></script>
+		<script src="assets/plugins/apexchart/chart-data.js"></script>
+
+		<!-- Calendar Js -->
+		<script src="assets/plugins/simple-calendar/jquery.simple-calendar.js"></script>
+		<script src="assets/js/calander.js"></script>
+
+		<!-- Circle Progress JS -->
+		<script src="assets/js/circle-progress.min.js"></script>
+
+		<!-- Custom JS -->
+		<script src="assets/js/script.js"></script>
+		
+    </body>
+</html>

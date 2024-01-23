@@ -1,0 +1,181 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=0">
+        <title>Team - Dashboard</title>
+		
+		<!-- Favicon -->
+        <link rel="shortcut icon" href="assets/img/favicon.png">
+	
+		<!-- Fontfamily -->
+		<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,500;0,600;0,700;1,400&display=swap">
+		
+		<!-- Bootstrap CSS -->
+        <link rel="stylesheet" href="assets/plugins/bootstrap/css/bootstrap.min.css">
+		
+		<!-- Fontawesome CSS -->
+		<link rel="stylesheet" href="assets/plugins/fontawesome/css/fontawesome.min.css">
+		<link rel="stylesheet" href="assets/plugins/fontawesome/css/all.min.css">
+
+		<!-- Calendar CSS -->
+		<link rel="stylesheet" href="assets/plugins/simple-calendar/simple-calendar.css">
+		
+		<!-- Main CSS -->
+        <link rel="stylesheet" href="assets/css/style.css">
+		<style>
+			#timer {
+			  font-size: 24px; /* Increase the font size for larger numbers */
+			   text-align: center;
+			}
+		  </style>
+    </head>
+    <body>
+	
+	<!-- Main Wrapper -->
+	<div class="main-wrapper">	
+        <%- include('teammenu.ejs') -%>
+		<!-- Page Wrapper -->
+		<div class="page-wrapper">
+			<div class="content container-fluid">
+				<!-- Page Header -->
+				<div class="page-header">
+					<div class="row">
+						<div class="col-md-9">
+							<h3> SIH 2K23 INTERNAL HACKATHON</h3>
+							<h3 class="page-title"> Team <b> <%= team['team_name'] %> Details</b>!</h3>
+						<ul class="breadcrumb">
+							<li class="breadcrumb-item "><a href='/teamdashboard'>Dashboard</a></li>
+                            <li class="breadcrumb-item active"><%= team['team_name'] %> Details</li>
+						</ul>
+						</div>
+						<div class="col-md-3">
+							<div class="card">
+								<div class="card-body">
+									
+								<div class="db-widgets d-flex justify-content-between align-items-center">
+									
+									<div class="db-info">
+										<h6>CountDown Timer</h6>
+									<div id="timer"></div>
+									</div>
+									<div class="db-icon">
+										<img src="assets/img/logo-small.png" alt="Logo" width="50" height="50">
+									</div>
+									</div>
+							</div>
+							</div>
+							
+						</div>
+
+					</div>
+					
+						<div class="row">
+							<div class="col-md-12 col-sm-12">
+								<div class="card card-table">
+									<div class="card-body">
+										<h5><b>Team Basic Details</b></h5>
+										<h6>Team Name: <b><%= team['team_name'] %></b></h6>
+										<h6>Team Lead:<b><%= team['team_lead'] %></b> </h6>
+										<h6>Team Mail:<b><%= team['team_mail'] %></b> </h6>
+										<h6>Team Mobile Number:<b><%= team['team_phone'] %></b> </h6>
+										<h6>Edition :<b><%= team['edition'] %></b> </h6>
+										<br>
+										<h5><b>Problem Statement Details</b></h5>
+										<h6>Category:<b><%= team['category'] %></b> </h6>
+										<h6>Problem Statement Id:<b><%= team['ps_id'] %></b> </h6>
+										<h6>PS Title:<b><%= team['ps_title'] %></b> </h6>
+										<h6>PS Description:<b><%= team['ps_description'] %></b> </h6>
+									</div>
+								</div>
+							</div>
+						</div>
+					
+					</div>
+			
+				
+								  
+						
+			</div>
+			<!-- /Teacher Dashboard -->
+		</div>
+		
+		<!-- Footer -->
+		<!-- <footer>
+			<p>Copyright © 2020 Dreamguys.</p>					
+		</footer> -->
+		<!-- /Footer -->
+
+	</div>
+	<!-- /Page Wrapper -->
+
+        </div>
+		<!-- /Main Wrapper -->
+		<script>
+			let secondsRemaining = 86400;
+			function updateTimer() {
+				if (secondsRemaining <= 0) {
+					secondsRemaining = 86400; // Reset to 24 hours when it reaches zero
+				}
+		
+				const hours = Math.floor(secondsRemaining / 3600) || '24';
+				const minutes = Math.floor((secondsRemaining % 3600) / 60) || '00';
+				const seconds = secondsRemaining % 60 || '00';
+				
+				const hoursDisplay = hours.toString().padStart(2, "0");
+				const minutesDisplay = minutes.toString().padStart(2, "0");
+				const secondsDisplay = seconds.toString().padStart(2, "0");
+		
+				document.getElementById("timer").textContent = `${hoursDisplay}:${minutesDisplay}:${secondsDisplay}`;
+				secondsRemaining--;
+			}
+
+
+			// Function to retrieve the stored timestamp and initialize the timer
+			function getStoredTimestamp() {
+				fetch("/getStoredTime")
+				.then(response => response.json())
+				.then(data => {
+					const storedTimestamp = new Date(data.timestamp);
+					const currentTime = new Date();
+					const timeDifference = storedTimestamp - currentTime;
+					console.log(timeDifference);
+					// Set the initial secondsRemaining based on the stored timestamp
+					secondsRemaining = Math.floor(timeDifference / 1000);
+					// Update the timer display
+					setInterval(updateTimer, 1000); 
+				})
+				.catch(error => {
+					console.error("Error fetching stored timestamp:", error);
+				});
+			}
+
+			window.addEventListener("load", function(event){
+				getStoredTimestamp();
+		});
+	</script>
+		<!-- jQuery -->
+        <script src="assets/js/jquery-3.6.0.min.js"></script>
+		
+		<!-- Bootstrap Core JS -->
+        <script src="assets/plugins/bootstrap/js/bootstrap.bundle.min.js"></script>
+		
+		<!-- Slimscroll JS -->
+		<script src="assets/plugins/slimscroll/jquery.slimscroll.min.js"></script>
+		
+		<!-- Chart JS -->
+		<script src="assets/plugins/apexchart/apexcharts.min.js"></script>
+		<script src="assets/plugins/apexchart/chart-data.js"></script>
+
+		<!-- Calendar Js -->
+		<script src="assets/plugins/simple-calendar/jquery.simple-calendar.js"></script>
+		<script src="assets/js/calander.js"></script>
+
+		<!-- Circle Progress JS -->
+		<script src="assets/js/circle-progress.min.js"></script>
+
+		<!-- Custom JS -->
+		<script src="assets/js/script.js"></script>
+		
+    </body>
+</html>
